@@ -1,0 +1,30 @@
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+
+# Local Agent Rules & Specs (Untracked)
+.cursorrules
+CLAUDE.md
+_specs/
+
+# Python & ML Artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.pt
+*.bin
+huggingface_cache/
+
+# Node / Frontend
+node_modules/
+frontend/dist/
+.vite/
+
+# Local Data & Uploads
+*.csv
+*.parquet
+!backend/tests/fixtures/*.csv

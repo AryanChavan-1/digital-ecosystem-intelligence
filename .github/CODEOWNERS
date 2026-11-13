@@ -1,0 +1,17 @@
+# Default owners
+* @aryan-chavan @unnati-kadam
+
+# Aryan's domain (Frontend & FastAPI REST Layer)
+/frontend/ @aryan-chavan
+/backend/app/ @aryan-chavan
+/backend/tests/api/ @aryan-chavan
+
+# Unnati's domain (Migrations, Worker & Data/ML)
+/backend/migrations/ @unnati-kadam
+/backend/worker/ @unnati-kadam
+/backend/tests/ml/ @unnati-kadam
+/data_ml/ @unnati-kadam
+
+# Shared API contract requires both approvals
+/shared/openapi.yaml @aryan-chavan @unnati-kadam
+/SHARED_API_AND_DB_CONTRACT.md @aryan-chavan @unnati-kadam

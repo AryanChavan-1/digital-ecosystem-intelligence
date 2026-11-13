@@ -1,0 +1,54 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: ecosystem_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ecosystem}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ecosystem_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-ecosystem_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ecosystem}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: ecosystem_api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+      - ./data_ml:/app/data_ml
+    depends_on:
+      db:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: ecosystem_worker
+    command: python -m worker.runner
+    env_file: .env
+    volumes:
+      - ./backend:/app/backend
+      - ./data_ml:/app/data_ml
+    deploy:
+      resources:
+        limits:
+          memory: 2.5G
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
