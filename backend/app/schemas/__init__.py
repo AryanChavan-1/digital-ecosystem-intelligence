@@ -1,3 +1,8 @@
+from app.schemas.audience import (
+    AudienceClusterResponseData,
+    AudienceClusterUpdateRequest,
+    AudienceTopicItem,
+)
 from app.schemas.auth import (
     AuthResponseData,
     LoginRequest,
@@ -11,8 +16,17 @@ from app.schemas.campaign import (
     CampaignSummaryResponseData,
     CampaignSummaryTotals,
 )
+from app.schemas.dashboard import DashboardSummaryResponseData
 from app.schemas.envelope import EnvelopeResponse, ErrorDetail, ErrorEnvelope, ResponseMeta
+from app.schemas.opportunity import (
+    OpportunityBriefGenerateResponseData,
+    OpportunityCreateRequest,
+    OpportunityResponseData,
+    OpportunityUpdateRequest,
+)
+from app.schemas.report import ReportResponseData
 from app.schemas.source import DataSourceResponse
+from app.schemas.trend import TrendDetailResponseData, TrendListItem
 from app.schemas.upload import (
     UploadConfirmRequest,
     UploadCreateRequest,
@@ -47,4 +61,15 @@ __all__ = [
     "CampaignDailyMetricItem",
     "CampaignSummaryTotals",
     "CampaignSummaryResponseData",
+    "DashboardSummaryResponseData",
+    "TrendListItem",
+    "TrendDetailResponseData",
+    "AudienceClusterResponseData",
+    "AudienceClusterUpdateRequest",
+    "AudienceTopicItem",
+    "OpportunityCreateRequest",
+    "OpportunityUpdateRequest",
+    "OpportunityResponseData",
+    "OpportunityBriefGenerateResponseData",
+    "ReportResponseData",
 ]
