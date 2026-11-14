@@ -28,3 +28,5 @@ frontend/dist/
 *.csv
 *.parquet
 !backend/tests/fixtures/*.csv
+.local_storage/
+
