@@ -523,3 +523,39 @@ async def test_reports_csv_export(client: AsyncClient, db_session: AsyncSession)
     assert "# Export Generated:" in csv_text
     assert "DPDP Compliant" in csv_text
     assert "Cold Pressed Juices" in csv_text
+
+
+@pytest.mark.asyncio
+async def test_workspace_seed_demo_endpoint(
+    client: AsyncClient,
+    db_session: AsyncSession,
+):
+    # Setup test workspace
+    user_data = await _register_user(client, "demo_seed_user@example.com", "Demo D2C Workspace")
+    ws_id = uuid.UUID(user_data["workspace"]["id"])
+
+    # Call POST /api/v1/workspaces/{workspace_id}/seed-demo
+    res = await client.post(
+        f"/api/v1/workspaces/{ws_id}/seed-demo",
+        headers={"X-Workspace-ID": str(ws_id)},
+        json={"industry": "Sustainable Fashion & D2C Apparel"},
+    )
+    assert res.status_code == 201
+    body = res.json()
+    assert "data" in body
+    data = body["data"]
+    assert data["workspace_id"] == str(ws_id)
+    assert data["topics_seeded"] >= 4
+    assert data["trends_seeded"] >= 4
+    assert data["audiences_seeded"] >= 2
+
+    # Verify topics and trends appear on dashboard/summary and trends explorer
+    dash_res = await client.get(
+        "/api/v1/dashboard/summary",
+        headers={"X-Workspace-ID": str(ws_id)},
+    )
+    assert dash_res.status_code == 200
+    dash_data = dash_res.json()["data"]
+    assert dash_data["tracked_topics"] >= 4
+    assert dash_data["connected_sources"] >= 1
+    assert len(dash_data["top_rising_trends"]) >= 4

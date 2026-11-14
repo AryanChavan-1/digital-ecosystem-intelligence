@@ -28,3 +28,17 @@ class WorkspaceUpdateRequest(BaseModel):
     industry: Optional[str] = Field(default=None, max_length=100)
     market_region: Optional[str] = Field(default=None, max_length=50)
     default_language: Optional[str] = Field(default=None, max_length=20)
+
+
+class WorkspaceSeedDemoRequest(BaseModel):
+    industry: Optional[str] = "Sustainable Fashion & D2C Apparel"
+
+
+class WorkspaceSeedDemoResponse(BaseModel):
+    workspace_id: uuid.UUID
+    topics_seeded: int
+    trends_seeded: int
+    audiences_seeded: int
+    sources_seeded: int
+    message: str = "Demo workspace intelligence seeded successfully."
+
