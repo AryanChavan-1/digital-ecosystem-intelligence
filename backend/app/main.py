@@ -1,5 +1,6 @@
 import logging
 import secrets
+from contextlib import asynccontextmanager
 from typing import Dict
 
 from fastapi import Depends, FastAPI, Request, Response, status
@@ -11,18 +12,33 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+import app.models  # noqa: F401 - Register models with Base
 from app.api.deps import get_db
 from app.api.v1.router import api_router
 from app.core.config import settings
+from app.core.database import Base, engine
 from app.core.errors import AppException
 
 logger = logging.getLogger("uvicorn.error")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Auto-create tables on startup in local development if needed."""
+    try:
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception as e:
+        logger.warning(f"Could not auto-create tables on startup: {e}")
+    yield
+
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version="0.1.0",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
 
 # CORS Middleware
