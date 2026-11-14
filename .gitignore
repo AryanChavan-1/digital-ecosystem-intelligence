@@ -27,6 +27,7 @@ frontend/dist/
 # Local Data & Uploads
 *.csv
 *.parquet
+*.db
 !backend/tests/fixtures/*.csv
 .local_storage/
 

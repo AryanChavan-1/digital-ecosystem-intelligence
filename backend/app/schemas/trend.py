@@ -3,7 +3,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, computed_field
 
 
 class TrendListItem(BaseModel):
@@ -23,6 +23,16 @@ class TrendListItem(BaseModel):
     confidence_badge: str
     is_cold_start: bool
     generated_at: datetime
+
+    @computed_field
+    @property
+    def topic_name(self) -> str:
+        return self.canonical_label
+
+    @computed_field
+    @property
+    def trend_id(self) -> uuid.UUID:
+        return self.id
 
 
 class TrendDetailResponseData(BaseModel):
@@ -48,3 +58,23 @@ class TrendDetailResponseData(BaseModel):
     related_topics: List[Dict[str, Any]]
     associated_audiences: List[Dict[str, Any]]
     evidence_snippets: List[Dict[str, Any]]
+
+    @computed_field
+    @property
+    def topic_name(self) -> str:
+        return self.canonical_label
+
+    @computed_field
+    @property
+    def trend_id(self) -> uuid.UUID:
+        return self.id
+
+    @computed_field
+    @property
+    def summary(self) -> str:
+        return self.plain_language_summary
+
+    @computed_field
+    @property
+    def timeline(self) -> List[Dict[str, Any]]:
+        return self.timeline_series
