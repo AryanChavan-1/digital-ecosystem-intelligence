@@ -43,6 +43,11 @@ class Settings(BaseSettings):
     COOKIE_DOMAIN: str | None = Field(default=None, alias="COOKIE_DOMAIN")
     SESSION_MAX_AGE_SECONDS: int = 60 * 60 * 24 * 7  # 7 days
 
+    # Storage Configuration (local or s3)
+    STORAGE_MODE: str = Field(default="local", alias="STORAGE_MODE")
+    LOCAL_STORAGE_DIR: str = Field(default="./.local_storage", alias="LOCAL_STORAGE_DIR")
+    MAX_UPLOAD_SIZE_BYTES: int = Field(default=25 * 1024 * 1024, alias="MAX_UPLOAD_SIZE_BYTES")  # 25 MB
+
     # S3-Compatible Object Storage
     S3_ENDPOINT_URL: str | None = Field(default=None, alias="S3_ENDPOINT_URL")
     S3_BUCKET_NAME: str | None = Field(default="ecosystem-uploads-dev", alias="S3_BUCKET_NAME")

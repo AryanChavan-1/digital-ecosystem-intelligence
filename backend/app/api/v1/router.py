@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.v1.endpoints import auth, workspaces
+from app.api.v1.endpoints import auth, campaigns, sources, uploads, workspaces
 from app.schemas.auth import MeResponseData
 from app.schemas.envelope import EnvelopeResponse
 
@@ -21,3 +21,12 @@ api_router.add_api_route(
 
 # Mount workspaces routes (/api/v1/workspaces/*)
 api_router.include_router(workspaces.router)
+
+# Mount sources routes (/api/v1/sources/*)
+api_router.include_router(sources.router)
+
+# Mount uploads routes (/api/v1/uploads/*)
+api_router.include_router(uploads.router)
+
+# Mount campaigns routes (/api/v1/campaigns/*)
+api_router.include_router(campaigns.router)
