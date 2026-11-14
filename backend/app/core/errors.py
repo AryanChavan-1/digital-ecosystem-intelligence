@@ -105,3 +105,34 @@ class ValidationException(AppException):
             message=message,
             details=details,
         )
+
+
+class AmbiguousDateFormatException(AppException):
+    def __init__(
+        self,
+        code: str = "AMBIGUOUS_DATE_FORMAT",
+        message: str = "Date format is ambiguous (all sample days <= 12). Please provide explicit date_format ('DD/MM/YYYY' or 'MM/DD/YYYY').",
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            code=code,
+            message=message,
+            details=details,
+        )
+
+
+class PayloadTooLargeException(AppException):
+    def __init__(
+        self,
+        code: str = "PAYLOAD_TOO_LARGE",
+        message: str = "File size exceeds the 25 MB limit.",
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            code=code,
+            message=message,
+            details=details,
+        )
+
